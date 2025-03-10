@@ -19,13 +19,33 @@
         .header {
             width: 100%;
             background-color: #1e263b;
-            padding: 0%;
-            text-align: center;
+            padding: 20px; /* Add padding */
+            display: flex; /* Use flexbox for alignment */
+            justify-content: space-between; /* Position elements at both ends */
+            align-items: center;
             position: fixed;
             left: 0;
             right: 0;
             z-index: 1000;
             top: 0;
+        }
+        .header h1 {
+            color: white; /* Set font color */
+            text-decoration: none;
+            position: absolute; /* Use absolute positioning */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Adjust for the width of the element */
+        }
+        .search-bar-container {
+            display: flex;
+            justify-content: flex-start; /* Align search bar to the left */
+            width: auto;
+            padding-left: 85px;
+        }
+        .search-bar {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
         .footer {
             width: 100%;
@@ -38,7 +58,7 @@
             z-index: 1000;
             bottom: 0;
         }
-        .header h1, .footer a {
+        .footer a {
             color: white; /* Set font color */
             text-decoration: none;
         }
@@ -83,14 +103,22 @@
             text-decoration: none;
             border-radius: 5px;
         }
+        .no-results {
+            display: none;
+            font-size: 20px;
+            color: white;
+        }
     </style>
 </head>
 <body>
     <div class="header">
+        <div class="search-bar-container">
+            <input type="text" id="search-bar" class="search-bar" placeholder="Search movie title...">
+        </div>
         <h1>Movies</h1>
     </div>
     <div class="container">
-        <div class="movie-grid">
+        <div id="movie-grid" class="movie-grid">
             {% for movie in movies %}
                 <div class="movie-item">
                     <a href="{% url 'movie_detail' movie.id %}">
@@ -100,9 +128,35 @@
                 </div>
             {% endfor %}
         </div>
+        <div id="no-results" class="no-results">Nothing to display</div>
     </div>
     <div class="footer">
         <a href="{% url 'add_movie' %}" class="add-movie">Add Movie</a>
     </div>
+
+    <script>
+        document.getElementById('search-bar').addEventListener('input', function() {
+            let searchQuery = this.value.toLowerCase();
+            let movieItems = document.querySelectorAll('.movie-item');
+            let noResults = document.getElementById('no-results');
+            let hasResults = false;
+
+            movieItems.forEach(function(item) {
+                let title = item.querySelector('h2').innerText.toLowerCase();
+                if (title.includes(searchQuery)) {
+                    item.style.display = '';
+                    hasResults = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            if (hasResults) {
+                noResults.style.display = 'none';
+            } else {
+                noResults.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
