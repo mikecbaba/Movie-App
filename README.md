@@ -3,10 +3,11 @@
 
 1. Create User Login
 2. Create/Delete movies
-3. Update description
-4. Upload photo
-5. Thumbnail display
+3. Upload photo
+4. Thumbnail display
+5. Dynamically adjust thumbnail in the center and max to 6 items per row.
 6. Search movie
+7. Change dark background
 
 ## Requirements installation
 After your creation of virtual environment, make sure to install these requirements if it's not yet available.
@@ -25,5 +26,5 @@ python manage.py createsuperuser
 ```
 ## Run the movie application
 If we are all set, run the application in your local server.
-Please Click the link below:
+Please Click the link below: <br>
 [Movie App](http://127.0.0.1:8000/movies/)
