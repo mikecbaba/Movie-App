@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Detail</title>
+    <style>
+        body {
+            background-color: #141a2a; /* Set background color */
+            color: white; /* Set font color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            width: 50%; /* Set container width to 50% of the screen */
+        }
+        .movie-detail {
+            background-color: #1e263b;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+        }
+        .movie-detail img {
+            width: 185px;
+            height: 278px;
+            object-fit: cover; /* Ensures the image covers the area without stretching */
+        }
+        .back-link, .delete-button {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .delete-button {
+            background-color: #dc3545; /* Red color for delete button */
+        }
+        h1, h2, p {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="movie-detail">
+            <h1>{{ movie.title }}</h1>
+            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
+            <h2>Description:</h2>
+            <p>{{ movie.description }}</p>
+            <a href="{% url 'movie_list' %}" class="back-link">Back to Movie List</a>
+            <form method="post" action="{% url 'delete_movie' movie.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="delete-button">Delete Movie</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

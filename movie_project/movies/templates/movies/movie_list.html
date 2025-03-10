@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movies</title>
+    <style>
+        body {
+            background-color: #141a2a; /* Set background color */
+            color: white; /* Set font color */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 80px; /* Space for fixed header */
+            padding-bottom: 80px; /* Space for fixed footer */
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            width: 100%;
+            background-color: #1e263b;
+            padding: 0%;
+            text-align: center;
+            position: fixed;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            top: 0;
+        }
+        .footer {
+            width: 100%;
+            background-color: #1e263b;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            bottom: 0;
+        }
+        .header h1, .footer a {
+            color: white; /* Set font color */
+            text-decoration: none;
+        }
+        .container {
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 80px; /* Space for fixed header */
+            margin-bottom: 80px; /* Space for fixed footer */
+        }
+        .movie-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px; /* Ensure 40px gap between items */
+        }
+        .movie-item {
+            text-align: center;            
+        }
+        .movie-item img {
+            width: 185px;
+            height: 278px;
+            object-fit: cover; /* Ensures the image covers the area without stretching */
+        }
+        .movie-item h2 {
+            font-size: 14px; /* Adjust font size to 12px */
+            margin: 10px 0 0; /* Add some margin above */
+            color: rgb(78, 129, 217);
+        }
+        .movie-item a {
+            text-decoration: none;
+            text-shadow: #d8dfe6;
+        }
+        .add-movie {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Movies</h1>
+    </div>
+    <div class="container">
+        <div class="movie-grid">
+            {% for movie in movies %}
+                <div class="movie-item">
+                    <a href="{% url 'movie_detail' movie.id %}">
+                        <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
+                        <h2>{{ movie.title }}</h2>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="footer">
+        <a href="{% url 'add_movie' %}" class="add-movie">Add Movie</a>
+    </div>
+</body>
+</html>
