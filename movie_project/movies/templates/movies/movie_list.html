@@ -9,48 +9,36 @@
             font-family: Arial, sans-serif;
         }
         body {
-            background-color: #141a2a; /* Set background color */
-            color: white; /* Set font color */
+            background-color: #141a2a;
+            color: white;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
-            padding-top: 80px; /* Space for fixed header */
-            padding-bottom: 80px; /* Space for fixed footer */
-            font-family: Arial, sans-serif;
-        }
-        .content {
-            flex: 1; /* Allows the content section to take up remaining space */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding-top: 80px;
+            padding-bottom: 80px;
         }
         .header {
             width: 100%;
             background-color: #1e263b;
-            padding: 20px; /* Add padding */
-            display: flex; /* Use flexbox for alignment */
-            justify-content: space-between; /* Position elements at both ends */
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
             position: fixed;
-            left: 0;
-            right: 0;
-            z-index: 1000;
             top: 0;
+            z-index: 1000;
         }
         .header h1 {
-            color: white; /* Set font color */
+            color: white;
             text-decoration: none;
-            position: absolute; /* Use absolute positioning */
-            left: 50%; /* Center horizontally */
-            transform: translateX(-50%); /* Adjust for the width of the element */
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
         .search-bar-container {
             display: flex;
-            justify-content: flex-start; /* Align search bar to the left */
-            width: auto;
             padding-left: 85px;
         }
         .search-bar {
@@ -63,53 +51,81 @@
             background-color: #1e263b;
             padding: 20px;
             text-align: center;
-            left: 0;
-            right: 0;
-            z-index: 1000;
             bottom: 0;
-        }
-        .footer a {
-            color: white; /* Set font color */
-            text-decoration: none;
+            z-index: 1000;
         }
         .container {
-            text-align: center;
             flex-grow: 1;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            margin-top: 80px; /* Space for fixed header */
-            margin-bottom: 80px; /* Space for fixed footer */
+            margin-top: 80px;
+            margin-bottom: 80px;
         }
         .movie-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 40px; /* Ensure 40px gap between items */
+            gap: 40px;
         }
         .movie-item {
-            text-align: center;            
+            position: relative;
+            width: 185px;
+            height: auto;
+            text-align: center;
+            overflow: hidden;
+        }
+        .movie-item a {
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 278px; /* Match poster height */
+            text-decoration: none;
         }
         .movie-item img {
-            width: 185px;
-            height: 278px;
-            object-fit: cover; /* Ensures the image covers the area without stretching */
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .movie-item h2 {
             font-size: 14px;
             margin: 10px 0 0;
             color: rgb(78, 129, 217);
-            max-width: 185px; /* Match poster width */
-            white-space: normal; /* Allow text to wrap */
+            white-space: normal;
             overflow: hidden;
             display: -webkit-box;
-            -webkit-line-clamp: 2; /* Limit to 2 lines */
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
         }
-        .movie-item a {
-            text-decoration: none;
-            text-shadow: #d8dfe6;
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1; /* Place above image */
+        }
+        .movie-item a:hover .overlay {
+            opacity: 1;
+        }
+        .overlay p {
+            margin: 5px 10px;
+            font-size: 12px;
+        }
+        .no-results {
+            display: none;
+            font-size: 20px;
+            color: white;
         }
         .add-movie {
             margin-right: 50px;
@@ -118,11 +134,6 @@
             color: white;
             text-decoration: none;
             border-radius: 5px;
-        }
-        .no-results {
-            display: none;
-            font-size: 20px;
-            color: white;
         }
     </style>
 </head>
@@ -140,8 +151,12 @@
                 <div class="movie-item">
                     <a href="{% url 'movie_detail' movie.id %}">
                         <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
-                        <h2>{{ movie.title }}</h2>
+                        <div class="overlay">
+                            <p><strong>{{ movie.title }}</strong></p>
+                            <p>{{ movie.description|truncatechars:100 }}</p>
+                        </div>
                     </a>
+                    <h2>{{ movie.title }}</h2>
                 </div>
             {% endfor %}
         </div>
@@ -150,7 +165,6 @@
     <div class="footer">
         © 2025 Your Movie App. All rights reserved.
     </div>
-
     <script>
         document.getElementById('search-bar').addEventListener('input', function() {
             let searchQuery = this.value.toLowerCase();

@@ -8,6 +8,7 @@
 5. Dynamically adjust thumbnail in the center and max to 6 items per row.
 6. Search movie
 7. Change dark background
+8. Display truncated movie description on hover
 
 ## Requirements installation
 After your creation of virtual environment, make sure to install these requirements if it's not yet available.
