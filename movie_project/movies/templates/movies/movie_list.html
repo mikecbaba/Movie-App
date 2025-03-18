@@ -3,6 +3,11 @@
 <head>
     <title>Movies</title>
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
         body {
             background-color: #141a2a; /* Set background color */
             color: white; /* Set font color */
@@ -15,6 +20,12 @@
             padding-top: 80px; /* Space for fixed header */
             padding-bottom: 80px; /* Space for fixed footer */
             font-family: Arial, sans-serif;
+        }
+        .content {
+            flex: 1; /* Allows the content section to take up remaining space */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .header {
             width: 100%;
@@ -52,7 +63,6 @@
             background-color: #1e263b;
             padding: 20px;
             text-align: center;
-            position: fixed;
             left: 0;
             right: 0;
             z-index: 1000;
@@ -87,16 +97,22 @@
             object-fit: cover; /* Ensures the image covers the area without stretching */
         }
         .movie-item h2 {
-            font-size: 14px; /* Adjust font size to 12px */
-            margin: 10px 0 0; /* Add some margin above */
+            font-size: 14px;
+            margin: 10px 0 0;
             color: rgb(78, 129, 217);
+            max-width: 185px; /* Match poster width */
+            white-space: normal; /* Allow text to wrap */
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limit to 2 lines */
+            -webkit-box-orient: vertical;
         }
         .movie-item a {
             text-decoration: none;
             text-shadow: #d8dfe6;
         }
         .add-movie {
-            margin-top: 20px;
+            margin-right: 50px;
             padding: 10px 20px;
             background-color: #007bff;
             color: white;
@@ -116,6 +132,7 @@
             <input type="text" id="search-bar" class="search-bar" placeholder="Search movie title...">
         </div>
         <h1>Movies</h1>
+        <a href="{% url 'add_movie' %}" class="add-movie">Add Movie</a>
     </div>
     <div class="container">
         <div id="movie-grid" class="movie-grid">
@@ -131,7 +148,7 @@
         <div id="no-results" class="no-results">Nothing to display</div>
     </div>
     <div class="footer">
-        <a href="{% url 'add_movie' %}" class="add-movie">Add Movie</a>
+        © 2025 Your Movie App. All rights reserved.
     </div>
 
     <script>

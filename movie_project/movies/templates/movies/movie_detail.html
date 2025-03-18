@@ -4,63 +4,84 @@
     <title>Movie Detail</title>
     <style>
         body {
-            background-color: #141a2a; /* Set background color */
-            color: white; /* Set font color */
+            background-color: #141a2a;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
         }
-        .container {
+        .movie-detail {
+            display: flex;
+            background-color: #1e263b;
+            border-radius: 10px;
+            overflow: hidden;
+            max-width: 90%;
+            height: 90vh;
+        }
+        .poster {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            background: #0f1626;
+        }
+        .poster img {
+            max-height: 100%;
+            width: auto;
+        }
+        .details {
+            flex: 2;
+            display: flex;
             flex-direction: column;
-            text-align: center;
-            width: 50%; /* Set container width to 50% of the screen */
-        }
-        .movie-detail {
-            background-color: #1e263b;
+            justify-content: space-between;
             padding: 20px;
-            border-radius: 10px;
-            width: 100%;
         }
-        .movie-detail img {
-            width: 185px;
-            height: 278px;
-            object-fit: cover; /* Ensures the image covers the area without stretching */
+        .details h1, .details h2, .details p {
+            text-align: center;
+            margin: 0 0 20px;
         }
-        .back-link, .delete-button {
-            margin-top: 20px;
-            display: inline-block;
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .button {
             padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
             text-decoration: none;
             border-radius: 5px;
+            text-align: center;
+            background-color: #007bff;
+            color: white;
         }
-        .delete-button {
-            background-color: #dc3545; /* Red color for delete button */
-        }
-        h1, h2, p {
-            margin-bottom: 15px;
+        .button.delete {
+            background-color: #dc3545;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="movie-detail">
-            <h1>{{ movie.title }}</h1>
+    <div class="movie-detail">
+        <!-- Poster Section -->
+        <div class="poster">
             <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
-            <h2>Description:</h2>
-            <p>{{ movie.description }}</p>
-            <a href="{% url 'movie_list' %}" class="back-link">Back to Movie List</a>
-            <form method="post" action="{% url 'delete_movie' movie.id %}" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" class="delete-button">Delete Movie</button>
-            </form>
+        </div>
+        <!-- Details Section -->
+        <div class="details">
+            <div>
+                <h1>{{ movie.title }}</h1>
+                <h2>Description:</h2>
+                <p>{{ movie.description }}</p>
+            </div>
+            <!-- Buttons Section -->
+            <div class="buttons">
+                <a href="{% url 'movie_list' %}" class="button">Back to Movie List</a>
+                <form method="post" action="{% url 'delete_movie' movie.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="button delete">Delete Movie</button>
+                </form>
+            </div>
         </div>
     </div>
 </body>
