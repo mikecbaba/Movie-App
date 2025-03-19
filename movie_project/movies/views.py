@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 import os
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from django.contrib import messages
 
 @login_required
 def movie_list(request):
