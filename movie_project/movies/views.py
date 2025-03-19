@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from .models import Movie
 from .forms import MovieForm
 from django.contrib.auth.decorators import login_required
+import os
+from django.conf import settings
+from django.shortcuts import get_object_or_404
 
 @login_required
 def movie_list(request):
@@ -23,8 +26,14 @@ def add_movie(request):
 
 @login_required
 def delete_movie(request, movie_id):
-    movie = Movie.objects.get(id=movie_id)
+    movie = get_object_or_404(Movie, id=movie_id)
     if movie.user == request.user:
+        # Delete the poster image file
+        poster_path = os.path.join(settings.MEDIA_ROOT, str(movie.poster))
+        if os.path.isfile(poster_path):
+            os.remove(poster_path)
+
+        # Delete the movie object
         movie.delete()
     return redirect('movie_list')
 
